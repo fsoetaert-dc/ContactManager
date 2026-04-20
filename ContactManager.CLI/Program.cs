@@ -1,2 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿var console = new SystemConsole();
+var menu = new ContactMenu(console);
+
+menu.Show();
