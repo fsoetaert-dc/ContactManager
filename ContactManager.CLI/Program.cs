@@ -1,11 +1,9 @@
-﻿var console = new SystemConsole();
-var menu = new ContactMenu(console);
+﻿using ContactManager.CLI;
+using ContactManager.Core;
 
-menu.Show();
 
-public class SystemConsole : IConsole
-{
-    public void WriteLine(string message) => Console.WriteLine(message);
-    public void Write(string message) => Console.Write(message);
-    public string ReadLine() => Console.ReadLine()!;
-}
+return
+    new Menu(
+        new SystemConsole(),
+        new ContactService(new InMemoryContactRepository()))
+    .Run();
