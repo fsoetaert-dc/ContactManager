@@ -2,7 +2,7 @@ using System.Xml.Serialization;
 
 namespace ContactManager.Core;
 
-public class Menu(IConsole console, ContactService service)
+public class Menu(IConsole console, ContactService service) //class Menu gemaakt die parameters IConsole en ContactService gebruiken. Deze worden opgeslagen in private fields
 {
     private IConsole Console = console;
     private ContactService Service = service;

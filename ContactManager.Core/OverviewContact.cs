@@ -1,12 +1,12 @@
 namespace ContactManager.Core;
 
-public class InMemoryContactRepository
+public class InMemoryContactRepository //class InMemoryContactRepository aangemaakt die een method Add heeft (heeft geen parameters nodig, maakt een nieuwe repo aan => var repo1 = new InMemoryContactRepository)
 {
     public IReadOnlyList<Contact> GetAll() { return ContactList; }
     private int UniqueId = 1;
 
     private List<Contact> ContactList = [];
-    public void Add(Contact contact)
+    public void Add(Contact contact)    //Add voegt een contact en een unieke Idnummer toe
     {
         ContactList.Add(contact);
         contact.Id = UniqueId;
