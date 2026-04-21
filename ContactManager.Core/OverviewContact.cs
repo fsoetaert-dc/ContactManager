@@ -1,3 +1,5 @@
+using System.ComponentModel;
+
 namespace ContactManager.Core;
 
 public class InMemoryContactRepository //class InMemoryContactRepository aangemaakt die een method Add heeft (heeft geen parameters nodig, maakt een nieuwe repo aan => var repo1 = new InMemoryContactRepository)
@@ -22,5 +24,17 @@ public class InMemoryContactRepository //class InMemoryContactRepository aangema
                 ContactList.Remove(contact);
             }
         }
+    }
+
+    public string SearchContact(string name)
+    {
+        foreach (var contact in ContactList)
+        {
+            if (contact.Name == name)
+            {
+                return contact.Name + " " + contact.Email + " " + contact.PhoneNumber;
+            }
+        }
+        throw new Exception("Naam niet in de accountlijst");
     }
 }

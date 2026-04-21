@@ -55,4 +55,17 @@ public class ContactService
         throw new Exception("Contact niet in de lijst");
     }
 
+    public void SearchContact(string name)
+    {
+        var contactlist = Repository.GetAll();
+        foreach (var contact in contactlist)
+        {
+            if (contact.Name == name)
+            {
+                Repository.SearchContact(name);
+            }
+        }
+        throw new Exception("Contact niet in de lijst");
+    }
+
 }
