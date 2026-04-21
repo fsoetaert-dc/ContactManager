@@ -21,6 +21,7 @@ public class Menu(IConsole console, ContactService service) //class Menu gemaakt
     private void ShowMenu()
     {
         console.WriteLine("1. Contact Toevoegen");
+        console.WriteLine("2. Toon Contactenlijst");
         console.WriteLine("q. Exit");
         console.Write("Maak uw keuze:");
     }
@@ -34,13 +35,22 @@ public class Menu(IConsole console, ContactService service) //class Menu gemaakt
 
     }
 
+    private void ShowContactList()
+    {
+        foreach (var contact in Service.GetContactsAsStrings())
+        {
+            console.WriteLine(contact);
+        }
+    }
+
     private bool HandleChoice(string choice)
     {
         switch (choice)
         {
             case "q": return false;
-            default: console.WriteLine("Ongeldige optie."); break;
             case "1": HandleContact(); break;
+            case "2": ShowContactList(); break;
+            default: console.WriteLine("Ongeldige optie."); break;
         }
         return true;
     }

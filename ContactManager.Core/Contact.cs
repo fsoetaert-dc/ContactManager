@@ -8,21 +8,17 @@ public class Contact //class contact aangemaakt die een naam als parameter neemt
 {
     public int Id { get; set; }
     public string Name { get; private set; } //moet nog altijd public zijn want je moet de naam kunnen  lezen, maar mag private set zijn omdat enkel Contact de naam mag toewijzen, en andere klasses van buitenaf mogen dit niet kunnen
-    //public string Email { get; set; }
-    //public string PhoneNumber { get; set; }
-    //public Contact(string name, string email, string number) //contructor
-    // : this(name)
-    // {
-    //     Email = email;
-    //     PhoneNumber = number;
-    // }
-    public Contact(string name)
+    public string Email { get; private set; }
+    public string PhoneNumber { get; private set; }
+    public Contact(string name, string email = "", string number = "") //contructor, email en number zijn default ""
     {
-        if (name == "")
+        if (string.IsNullOrEmpty(name))
         {
             throw new Exception("Name cannot be empty");
         }
         Name = name;
+        Email = email;
+        PhoneNumber = number;
     }
 
 }
