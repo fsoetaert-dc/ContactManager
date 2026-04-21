@@ -12,6 +12,11 @@ public class Contact //class contact aangemaakt die een naam als parameter neemt
     public string PhoneNumber { get; private set; }
     public Contact(string name, string email = "", string number = "") //contructor, email en number zijn default ""
     {
+        Update(name, email, number);
+    }
+
+    public void Update(string name, string email = "", string number = "")
+    {
         if (string.IsNullOrEmpty(name))
         {
             throw new Exception("Name cannot be empty");
@@ -20,5 +25,4 @@ public class Contact //class contact aangemaakt die een naam als parameter neemt
         Email = email;
         PhoneNumber = number;
     }
-
 }

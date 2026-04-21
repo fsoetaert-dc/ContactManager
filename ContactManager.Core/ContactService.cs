@@ -11,7 +11,7 @@ public class ContactService
     {
         Repository = usedRepo;
     }
-    public void AddContact(string name)
+    public void AddContactToRepo(string name)
     {
         var contact1 = new Contact(name);
         Repository.Add(contact1);
@@ -27,6 +27,19 @@ public class ContactService
             ContactToString.Add(contact.PhoneNumber.ToString());
         }
         return ContactToString;
+    }
+
+    public void UpdateContact(int UniekeId, string name, string email, string number)
+    {
+        var contactlist = Repository.GetAll();
+        foreach (var contact in contactlist)
+        {
+            if (contact.Id == UniekeId)
+            {
+                contact.Update(name, email, number);
+            }
+        }
+        throw new Exception("Contact niet in de lijst");
     }
 
 }

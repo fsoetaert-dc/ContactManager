@@ -22,6 +22,7 @@ public class Menu(IConsole console, ContactService service) //class Menu gemaakt
     {
         console.WriteLine("1. Contact Toevoegen");
         console.WriteLine("2. Toon Contactenlijst");
+        console.WriteLine("3. Contact Aanpassen");
         console.WriteLine("q. Exit");
         console.Write("Maak uw keuze:");
     }
@@ -30,7 +31,7 @@ public class Menu(IConsole console, ContactService service) //class Menu gemaakt
     {
         console.WriteLine("Voer een naam in: ");
         var nameContact = console.ReadLine();
-        service.AddContact(nameContact);
+        service.AddContactToRepo(nameContact);
         console.WriteLine($"Contact toegevoegd: {nameContact}");
 
     }
@@ -43,6 +44,36 @@ public class Menu(IConsole console, ContactService service) //class Menu gemaakt
         }
     }
 
+    private void UpdateContact()
+    {
+        console.WriteLine("Geef Idnummer in");
+        var Idstr = console.ReadLine();
+        foreach (var letter in Idstr)
+        {
+            if (!char.IsDigit(letter))
+            {
+                console.WriteLine("Geen nummer");
+                return;
+            }
+        }
+        var Idnummer = int.Parse(Idstr);
+        console.WriteLine("Pas de naam aan");
+        var aanpassingNaam = Console.ReadLine();
+        console.WriteLine("Pas de email aan");
+        var aanpassingEmail = Console.ReadLine();
+        console.WriteLine("Pas de telefoonnummer aan");
+        var aanpassingNummer = Console.ReadLine();
+        try
+        {
+            Service.UpdateContact(Idnummer, aanpassingNaam, aanpassingEmail, aanpassingNummer);
+        }
+        catch (Exception ex)
+        {
+            console.WriteLine(ex.Message);
+        }
+        Service.UpdateContact(Idnummer, aanpassingNaam, aanpassingEmail, aanpassingNummer);
+    }
+
     private bool HandleChoice(string choice)
     {
         switch (choice)
@@ -50,6 +81,8 @@ public class Menu(IConsole console, ContactService service) //class Menu gemaakt
             case "q": return false;
             case "1": HandleContact(); break;
             case "2": ShowContactList(); break;
+            case "3":; break;
+
             default: console.WriteLine("Ongeldige optie."); break;
         }
         return true;
