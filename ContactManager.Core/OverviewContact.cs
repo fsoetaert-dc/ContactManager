@@ -13,4 +13,14 @@ public class InMemoryContactRepository //class InMemoryContactRepository aangema
         UniqueId += 1;
     }
 
+    public void RemoveContact(int Idnummer)
+    {
+        foreach (var contact in ContactList)
+        {
+            if (contact.Id == Idnummer)
+            {
+                ContactList.Remove(contact);
+            }
+        }
+    }
 }

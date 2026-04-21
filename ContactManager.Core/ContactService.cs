@@ -42,4 +42,17 @@ public class ContactService
         throw new Exception("Contact niet in de lijst");
     }
 
+    public void RemoveContact(int UniekeId)
+    {
+        var contactlist = Repository.GetAll();
+        foreach (var contact in contactlist)
+        {
+            if (contact.Id == UniekeId)
+            {
+                Repository.RemoveContact(UniekeId);
+            }
+        }
+        throw new Exception("Contact niet in de lijst");
+    }
+
 }
