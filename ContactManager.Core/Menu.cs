@@ -2,7 +2,7 @@ using System.Xml.Serialization;
 
 namespace ContactManager.Core;
 
-public class Menu(IConsole console, ContactService service)
+public class Menu(IConsole console, ContactService service) //class Menu gemaakt die parameters IConsole en ContactService gebruiken. Deze worden opgeslagen in private fields
 {
     private IConsole Console = console;
     private ContactService Service = service;
@@ -21,6 +21,9 @@ public class Menu(IConsole console, ContactService service)
     private void ShowMenu()
     {
         console.WriteLine("1. Contact Toevoegen");
+        console.WriteLine("2. Toon Contactenlijst");
+        console.WriteLine("3. Contact Aanpassen");
+        console.WriteLine("4. Contact Verwijderen");
         console.WriteLine("q. Exit");
         console.Write("Maak uw keuze:");
     }
@@ -29,9 +32,73 @@ public class Menu(IConsole console, ContactService service)
     {
         console.WriteLine("Voer een naam in: ");
         var nameContact = console.ReadLine();
-        service.AddContact(nameContact);
+        service.AddContactToRepo(nameContact);
         console.WriteLine($"Contact toegevoegd: {nameContact}");
 
+    }
+
+    private void ShowContactList()
+    {
+        foreach (var contact in Service.GetContactsAsStrings())
+        {
+            console.WriteLine(contact);
+        }
+    }
+
+    private void UpdateContact()
+    {
+        console.WriteLine("Geef het Idnummer in");
+        var Idstr = console.ReadLine();
+        foreach (var letter in Idstr)
+        {
+            if (!char.IsDigit(letter))
+            {
+                console.WriteLine("Ingegeven waarde is geen nummer");
+                return;
+            }
+        }
+        var Idint = int.Parse(Idstr);
+        console.WriteLine("Pas de naam aan");
+        var aanpassingNaam = Console.ReadLine();
+        console.WriteLine("Pas de email aan");
+        var aanpassingEmail = Console.ReadLine();
+        console.WriteLine("Pas de telefoonnummer aan");
+        var aanpassingNummer = Console.ReadLine();
+        try
+        {
+            Service.UpdateContact(Idint, aanpassingNaam, aanpassingEmail, aanpassingNummer);
+        }
+        catch (Exception ex)
+        {
+            console.WriteLine(ex.Message);
+        }
+        Service.UpdateContact(Idint, aanpassingNaam, aanpassingEmail, aanpassingNummer);
+        console.WriteLine($"Account met Idnummer {Idint} is aangepast");
+    }
+
+    public void RemoveContact()
+    {
+        console.WriteLine("Geef het Idnummer in");
+        var Idstr = console.ReadLine();
+        foreach (var letter in Idstr)
+        {
+            if (!char.IsDigit(letter))
+            {
+                console.WriteLine("Ingegeven waarde is geen nummer");
+                return;
+            }
+        }
+        var Idint = int.Parse(Idstr);
+        try
+        {
+            Service.RemoveContact(Idint);
+        }
+        catch (Exception ex)
+        {
+            console.WriteLine(ex.Message);
+        }
+        Service.RemoveContact(Idint);
+        console.WriteLine($"Account met Idnummer {Idint} is verwijderd");
     }
 
     private bool HandleChoice(string choice)
@@ -39,8 +106,12 @@ public class Menu(IConsole console, ContactService service)
         switch (choice)
         {
             case "q": return false;
-            default: console.WriteLine("Ongeldige optie."); break;
             case "1": HandleContact(); break;
+            case "2": ShowContactList(); break;
+            case "3": UpdateContact(); break;
+            case "4": RemoveContact(); break;
+
+            default: console.WriteLine("Ongeldige optie."); break;
         }
         return true;
     }
