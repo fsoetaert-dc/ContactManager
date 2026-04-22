@@ -4,7 +4,7 @@ namespace ContactManager.Core;
 
 public class ContactService
 {
-
+    public Contact FoundContact;
     private InMemoryContactRepository Repository;
 
     public ContactService(InMemoryContactRepository usedRepo)
@@ -37,6 +37,7 @@ public class ContactService
             if (contact.Id == UniekeId)
             {
                 contact.Update(name, email, number);
+                return;
             }
         }
         throw new Exception("Contact niet in de lijst");
@@ -50,6 +51,7 @@ public class ContactService
             if (contact.Id == UniekeId)
             {
                 Repository.RemoveContact(UniekeId);
+                return;
             }
         }
         throw new Exception("Contact niet in de lijst");
@@ -63,6 +65,8 @@ public class ContactService
             if (contact.Name == name)
             {
                 Repository.SearchContact(name);
+                var FoundContact = Repository.FoundContact;
+                return;
             }
         }
         throw new Exception("Contact niet in de lijst");

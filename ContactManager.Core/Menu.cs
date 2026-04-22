@@ -101,6 +101,16 @@ public class Menu(IConsole console, ContactService service) //class Menu gemaakt
         console.WriteLine($"Account met Idnummer {Idint} is verwijderd");
     }
 
+    public void SearchContact()
+    {
+        console.WriteLine("Geef de naam in van het account");
+        var name = console.ReadLine();
+        Service.SearchContact(name);
+        var Foundname = Service.FoundContact;
+        console.WriteLine($"Naam: {Foundname.Name} +  Email:  + {Foundname.Email} +  Telefoonnummer: + {Foundname.PhoneNumber}");
+
+    }
+
     private bool HandleChoice(string choice)
     {
         switch (choice)
