@@ -24,6 +24,7 @@ public class Menu(IConsole console, ContactService service) //class Menu gemaakt
         console.WriteLine("2. Toon Contactenlijst");
         console.WriteLine("3. Contact Aanpassen");
         console.WriteLine("4. Contact Verwijderen");
+        console.WriteLine("5. Contact Zoeken");
         console.WriteLine("q. Exit");
         console.Write("Maak uw keuze:");
     }
@@ -39,9 +40,9 @@ public class Menu(IConsole console, ContactService service) //class Menu gemaakt
 
     private void ShowContactList()
     {
-        foreach (var contact in Service.GetContactsAsStrings())
+        foreach (var contact in Service.GetContactAsStrings())
         {
-            console.WriteLine(contact);
+            console.WriteLine(contact); // staat nu mooi op 1 lijn
         }
     }
 
@@ -97,7 +98,7 @@ public class Menu(IConsole console, ContactService service) //class Menu gemaakt
         {
             console.WriteLine(ex.Message);
         }
-        Service.RemoveContact(Idint);
+
         console.WriteLine($"Account met Idnummer {Idint} is verwijderd");
     }
 
@@ -105,10 +106,8 @@ public class Menu(IConsole console, ContactService service) //class Menu gemaakt
     {
         console.WriteLine("Geef de naam in van het account");
         var name = console.ReadLine();
-        Service.SearchContact(name);
-        var Foundname = Service.FoundContact;
-        console.WriteLine($"Naam: {Foundname.Name} +  Email:  + {Foundname.Email} +  Telefoonnummer: + {Foundname.PhoneNumber}");
-
+        var nameFound = Service.SearchContact(name);
+        console.WriteLine($"{nameFound}");
     }
 
     private bool HandleChoice(string choice)
@@ -120,6 +119,7 @@ public class Menu(IConsole console, ContactService service) //class Menu gemaakt
             case "2": ShowContactList(); break;
             case "3": UpdateContact(); break;
             case "4": RemoveContact(); break;
+            case "5": SearchContact(); break;
 
             default: console.WriteLine("Ongeldige optie."); break;
         }

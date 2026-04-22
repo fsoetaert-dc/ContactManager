@@ -1,10 +1,10 @@
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
 
 namespace ContactManager.Core;
 
 public class ContactService
 {
-    public Contact FoundContact;
     private InMemoryContactRepository Repository;
 
     public ContactService(InMemoryContactRepository usedRepo)
@@ -17,14 +17,16 @@ public class ContactService
         Repository.Add(contact1);
     }
 
-    public List<string> GetContactsAsStrings()
+    public List<string> GetContactAsStrings()
     {
         List<string> ContactToString = [];
-        foreach (var contact in Repository.GetAll())
+        foreach (var contact in Repository.GetAll()) // neemt alle contacts en steekt ze in de lijst, nog niet zeker of ik dit wil
         {
-            ContactToString.Add(contact.Name.ToString());
-            ContactToString.Add(contact.Email.ToString());
-            ContactToString.Add(contact.PhoneNumber.ToString());
+            var name = contact.Name.ToString();
+            var email = contact.Email.ToString();
+            var nummer = contact.PhoneNumber.ToString();
+            var totalContact = $"Naam: {name}  Email: {email}  Telefoonnummer: {nummer}";
+            ContactToString.Add(totalContact);
         }
         return ContactToString;
     }
@@ -57,16 +59,18 @@ public class ContactService
         throw new Exception("Contact niet in de lijst");
     }
 
-    public void SearchContact(string name)
+    public string SearchContact(string name)
     {
-        var contactlist = Repository.GetAll();
-        foreach (var contact in contactlist)
+
+        foreach (var contact in Repository.GetAll())
         {
             if (contact.Name == name)
             {
-                Repository.SearchContact(name);
-                var FoundContact = Repository.FoundContact;
-                return;
+                var contactFound = Repository.SearchContact(name);
+                var foundName = contactFound.Name.ToString();
+                var email = contactFound.Email.ToString();
+                var nummer = contactFound.PhoneNumber.ToString();
+                return $"Naam: {foundName}  Email: {email}  Telefoonnummer: {nummer}";
             }
         }
         throw new Exception("Contact niet in de lijst");

@@ -6,7 +6,6 @@ public class InMemoryContactRepository //class InMemoryContactRepository aangema
 {
     public IReadOnlyList<Contact> GetAll() { return ContactList; }
 
-    public Contact FoundContact;
     private int UniqueId = 1; //base Id en telt 1 op bij elk nieuw contact in AddContact
 
     private List<Contact> ContactList = [];
@@ -29,14 +28,13 @@ public class InMemoryContactRepository //class InMemoryContactRepository aangema
         }
     }
 
-    public void SearchContact(string name)
+    public Contact SearchContact(string name)
     {
         foreach (var contact in ContactList)
         {
             if (contact.Name == name)
             {
-                FoundContact = contact;
-                return;
+                return contact;
             }
         }
         throw new Exception("Naam niet in de accountlijst");
