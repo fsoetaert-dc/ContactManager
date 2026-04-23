@@ -4,9 +4,6 @@ namespace ContactManager.Core;
 
 public class Menu(IConsole console, ContactService service) //class Menu gemaakt die parameters IConsole en ContactService gebruiken. Deze worden opgeslagen in private fields
 {
-    private IConsole Console = console;
-    private ContactService Service = service;
-
     public int Run()
     {
         var running = true;
@@ -33,14 +30,17 @@ public class Menu(IConsole console, ContactService service) //class Menu gemaakt
     {
         console.WriteLine("Voer een naam in: ");
         var nameContact = console.ReadLine();
-        service.AddContactToRepo(nameContact);
+        console.WriteLine("Voer een emailadres in: ");
+        var emailContact = console.ReadLine();
+        console.WriteLine("Voer een telefoonnummer in: ");
+        var numberContact = console.ReadLine();
+        service.AddContactToRepo(nameContact, emailContact, numberContact);
         console.WriteLine($"Contact toegevoegd: {nameContact}");
-
     }
 
     private void ShowContactList()
     {
-        foreach (var contact in Service.GetAllContactsAsStrings())
+        foreach (var contact in service.GetAllContactsAsStrings())
         {
             console.WriteLine(contact); // staat nu mooi op 1 lijn
         }
@@ -49,8 +49,8 @@ public class Menu(IConsole console, ContactService service) //class Menu gemaakt
     private void UpdateContact()
     {
         console.WriteLine("Geef het Idnummer in");
-        var Idstr = console.ReadLine();
-        foreach (var letter in Idstr)
+        var IdStr = console.ReadLine();
+        foreach (var letter in IdStr)
         {
             if (!char.IsDigit(letter))
             {
@@ -58,7 +58,7 @@ public class Menu(IConsole console, ContactService service) //class Menu gemaakt
                 return;
             }
         }
-        var Idint = int.Parse(Idstr);
+        var IdInt = int.Parse(IdStr);
         console.WriteLine("Pas de naam aan");
         var aanpassingNaam = Console.ReadLine();
         console.WriteLine("Pas de email aan");
@@ -67,8 +67,8 @@ public class Menu(IConsole console, ContactService service) //class Menu gemaakt
         var aanpassingNummer = Console.ReadLine();
         try
         {
-            Service.UpdateContact(Idint, aanpassingNaam, aanpassingEmail, aanpassingNummer);
-            console.WriteLine($"Account met Idnummer {Idint} is aangepast");
+            service.UpdateContact(IdInt, aanpassingNaam, aanpassingEmail, aanpassingNummer);
+            console.WriteLine($"Account met Idnummer {IdInt} is aangepast");
         }
         catch (Exception ex)
         {
@@ -80,24 +80,17 @@ public class Menu(IConsole console, ContactService service) //class Menu gemaakt
     {
         console.WriteLine("Geef het Idnummer in");
         var Idstr = console.ReadLine();
-        foreach (var letter in Idstr)
-        {
-            if (!char.IsDigit(letter))
-            {
-                console.WriteLine("Ingegeven waarde is geen nummer");
-                return;
-            }
-        }
-        var Idint = int.Parse(Idstr);
+
         try
         {
-            Service.RemoveContact(Idint);
+            int Idint = int.Parse(Idstr);
+            service.RemoveContact(Idint);
             console.WriteLine($"Account met Idnummer {Idint} is verwijderd");
         }
+        catch (FormatException)
+        { console.WriteLine("Ingegeven Idnummer is geen nummer"); }
         catch (Exception ex)
-        {
-            console.WriteLine(ex.Message);
-        }
+        { console.WriteLine(ex.Message); }
     }
 
     public void SearchContact()
@@ -107,7 +100,7 @@ public class Menu(IConsole console, ContactService service) //class Menu gemaakt
         var foundName = string.Empty;
         try
         {
-            foundName = Service.SearchContact(contactName);
+            foundName = service.SearchContact(contactName);
             console.WriteLine(foundName);
         }
         catch (Exception ex)

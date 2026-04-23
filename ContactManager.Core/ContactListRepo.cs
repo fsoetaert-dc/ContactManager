@@ -4,33 +4,35 @@ namespace ContactManager.Core;
 
 public class InMemoryContactRepository //class InMemoryContactRepository aangemaakt die een method Add heeft (heeft geen parameters nodig, maakt een nieuwe repo aan => var repo1 = new InMemoryContactRepository)
 {
-    public IReadOnlyList<Contact> GetAll() { return ContactList; }
+    public IReadOnlyList<Contact> GetAll() { return contactList; }
 
-    private int UniqueId = 1; //base Id en telt 1 op bij elk nieuw contact in AddContact
+    private int uniqueId = 1; //base Id en telt 1 op bij elk nieuw contact in AddContact
 
-    private List<Contact> ContactList = [];
+    private List<Contact> contactList = [];
     public void Add(Contact contact)    //Add voegt een contact en een unieke Idnummer toe
     {
-        ContactList.Add(contact);
-        contact.Id = UniqueId;
-        UniqueId += 1;
+        contactList.Add(contact);
+        contact.Id = uniqueId;
+        uniqueId += 1;
     }
 
     public void RemoveContact(int Idnummer)
     {
-        foreach (var contact in ContactList)
+        foreach (var contact in contactList)
         {
             if (contact.Id == Idnummer)
             {
-                ContactList.Remove(contact);
+                contactList.Remove(contact);
                 return;
             }
+
         }
+        throw new Exception("Contact niet in de lijst");
     }
 
     public Contact SearchContact(string name)
     {
-        foreach (var contact in ContactList)
+        foreach (var contact in contactList)
         {
             if (contact.Name == name)
             {

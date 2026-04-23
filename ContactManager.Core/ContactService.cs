@@ -6,40 +6,39 @@ namespace ContactManager.Core;
 
 public class ContactService
 {
-    private InMemoryContactRepository Repository;
+    private InMemoryContactRepository repository; // kleine letter want het is een field, om alle variablen aan te passen met dezelfde naam klik op variable en F2
 
     public ContactService(InMemoryContactRepository usedRepo)
     {
-        Repository = usedRepo;
+        repository = usedRepo;
     }
-    public void AddContactToRepo(string name)
+    public void AddContactToRepo(string name, string email, string PhoneNumber)
     {
-        var contact1 = new Contact(name);
-        Repository.Add(contact1);
+        var contact = new Contact(name, email, PhoneNumber);
+        repository.Add(contact);
     }
 
-    public string GetContactAsStrings(Contact contact)
+    public string GetContactAsStrings(Contact contact) //maakt een mooie string van contact info
     {
-        // nog niet zeker alle contacts of enkel 1 weergeven, do ik dit niet ook in SearchContact?
         var name = contact.Name.ToString();
         var email = contact.Email.ToString();
         var nummer = contact.PhoneNumber.ToString();
         return $"Naam: {name}  Email: {email}  Telefoonnummer: {nummer}";
     }
 
-    public List<string> GetAllContactsAsStrings()
+    public List<string> GetAllContactsAsStrings()   //maakt een lijst van alle contacts in stringformaat
     {
         List<string> AllContactString = [];
-        foreach (var contact in Repository.GetAll())
+        foreach (var contact in repository.GetAll())
         {
             AllContactString.Add(GetContactAsStrings(contact));
         }
         return AllContactString;
     }
 
-    public void UpdateContact(int UniekeId, string name, string email, string number)
+    public void UpdateContact(int UniekeId, string name, string email, string number) //update the details van een contact
     {
-        var contactlist = Repository.GetAll();
+        var contactlist = repository.GetAll();
         foreach (var contact in contactlist)
         {
             if (contact.Id == UniekeId)
@@ -53,33 +52,11 @@ public class ContactService
 
     public void RemoveContact(int UniekeId)
     {
-        var contactlist = Repository.GetAll();
-        foreach (var contact in contactlist)
-        {
-            if (contact.Id == UniekeId)
-            {
-                Repository.RemoveContact(UniekeId);
-                return;
-            }
-        }
-        throw new Exception("Contact niet in de lijst");
+        repository.RemoveContact(UniekeId);
     }
 
     public string SearchContact(string name)
     {
-
-        foreach (var contact in Repository.GetAll())
-        {
-            if (contact.Name == name)
-            {
-                var contactFound = Repository.SearchContact(name);
-                var foundName = contactFound.Name.ToString();
-                var email = contactFound.Email.ToString();
-                var nummer = contactFound.PhoneNumber.ToString();
-                return $"Naam: {foundName}  Email: {email}  Telefoonnummer: {nummer}";
-            }
-        }
-        throw new Exception("Contact niet in de lijst");
+        return GetContactAsStrings(repository.SearchContact(name));
     }
-
 }
