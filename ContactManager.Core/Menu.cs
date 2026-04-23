@@ -40,7 +40,7 @@ public class Menu(IConsole console, ContactService service) //class Menu gemaakt
 
     private void ShowContactList()
     {
-        foreach (var contact in Service.GetContactAsStrings())
+        foreach (var contact in Service.GetAllContactsAsStrings())
         {
             console.WriteLine(contact); // staat nu mooi op 1 lijn
         }
@@ -68,13 +68,12 @@ public class Menu(IConsole console, ContactService service) //class Menu gemaakt
         try
         {
             Service.UpdateContact(Idint, aanpassingNaam, aanpassingEmail, aanpassingNummer);
+            console.WriteLine($"Account met Idnummer {Idint} is aangepast");
         }
         catch (Exception ex)
         {
             console.WriteLine(ex.Message);
         }
-        Service.UpdateContact(Idint, aanpassingNaam, aanpassingEmail, aanpassingNummer);
-        console.WriteLine($"Account met Idnummer {Idint} is aangepast");
     }
 
     public void RemoveContact()
@@ -93,21 +92,28 @@ public class Menu(IConsole console, ContactService service) //class Menu gemaakt
         try
         {
             Service.RemoveContact(Idint);
+            console.WriteLine($"Account met Idnummer {Idint} is verwijderd");
         }
         catch (Exception ex)
         {
             console.WriteLine(ex.Message);
         }
-
-        console.WriteLine($"Account met Idnummer {Idint} is verwijderd");
     }
 
     public void SearchContact()
     {
         console.WriteLine("Geef de naam in van het account");
-        var name = console.ReadLine();
-        var nameFound = Service.SearchContact(name);
-        console.WriteLine($"{nameFound}");
+        var contactName = console.ReadLine();
+        var foundName = string.Empty;
+        try
+        {
+            foundName = Service.SearchContact(contactName);
+            console.WriteLine(foundName);
+        }
+        catch (Exception ex)
+        {
+            console.WriteLine(ex.Message);
+        }
     }
 
     private bool HandleChoice(string choice)

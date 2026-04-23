@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 
 namespace ContactManager.Core;
 
@@ -17,18 +18,23 @@ public class ContactService
         Repository.Add(contact1);
     }
 
-    public List<string> GetContactAsStrings()
+    public string GetContactAsStrings(Contact contact)
     {
-        List<string> ContactToString = [];
-        foreach (var contact in Repository.GetAll()) // neemt alle contacts en steekt ze in de lijst, nog niet zeker of ik dit wil
+        // nog niet zeker alle contacts of enkel 1 weergeven, do ik dit niet ook in SearchContact?
+        var name = contact.Name.ToString();
+        var email = contact.Email.ToString();
+        var nummer = contact.PhoneNumber.ToString();
+        return $"Naam: {name}  Email: {email}  Telefoonnummer: {nummer}";
+    }
+
+    public List<string> GetAllContactsAsStrings()
+    {
+        List<string> AllContactString = [];
+        foreach (var contact in Repository.GetAll())
         {
-            var name = contact.Name.ToString();
-            var email = contact.Email.ToString();
-            var nummer = contact.PhoneNumber.ToString();
-            var totalContact = $"Naam: {name}  Email: {email}  Telefoonnummer: {nummer}";
-            ContactToString.Add(totalContact);
+            AllContactString.Add(GetContactAsStrings(contact));
         }
-        return ContactToString;
+        return AllContactString;
     }
 
     public void UpdateContact(int UniekeId, string name, string email, string number)

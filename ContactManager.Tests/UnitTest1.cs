@@ -27,6 +27,18 @@ public class UnitTest1
     }
 }
 
+public class TestStep5
+{
+    [Fact]
+    public void CheckAddContact()
+    {
+        var ContactService = new ContactService("repository");
+        ContactService.AddContact
+
+
+    }
+}
+
 public class FakeConsole : IConsole
 {
     public List<string> Output = new();
