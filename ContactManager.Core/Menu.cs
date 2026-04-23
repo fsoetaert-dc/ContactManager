@@ -100,7 +100,7 @@ public class Menu(IConsole console, ContactService service) //class Menu gemaakt
         var foundName = string.Empty;
         try
         {
-            foundName = service.SearchContact(contactName);
+            foundName = service.SearchContactName(contactName);
             console.WriteLine(foundName);
         }
         catch (Exception ex)

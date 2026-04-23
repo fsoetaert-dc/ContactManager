@@ -30,7 +30,7 @@ public class InMemoryContactRepository //class InMemoryContactRepository aangema
         throw new Exception("Contact niet in de lijst");
     }
 
-    public Contact SearchContact(string name)
+    public Contact SearchContactName(string name)
     {
         foreach (var contact in contactList)
         {

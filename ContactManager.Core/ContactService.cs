@@ -20,10 +20,7 @@ public class ContactService
 
     public string GetContactAsStrings(Contact contact) //maakt een mooie string van contact info
     {
-        var name = contact.Name.ToString();
-        var email = contact.Email.ToString();
-        var nummer = contact.PhoneNumber.ToString();
-        return $"Naam: {name}  Email: {email}  Telefoonnummer: {nummer}";
+        return $"Naam: {contact.Name}  Email: {contact.Email}  Telefoonnummer: {contact.PhoneNumber}";
     }
 
     public List<string> GetAllContactsAsStrings()   //maakt een lijst van alle contacts in stringformaat
@@ -36,18 +33,23 @@ public class ContactService
         return AllContactString;
     }
 
-    public void UpdateContact(int UniekeId, string name, string email, string number) //update the details van een contact
+    public Contact SearchContactId(int UniekeId)
     {
         var contactlist = repository.GetAll();
         foreach (var contact in contactlist)
         {
             if (contact.Id == UniekeId)
             {
-                contact.Update(name, email, number);
-                return;
+                return contact;
             }
         }
         throw new Exception("Contact niet in de lijst");
+    }
+
+    public void UpdateContact(int UniekeId, string name, string email, string number) //update the details van een contact
+    {
+        var contact = SearchContactId(UniekeId);
+        contact.Update(name, email, number);
     }
 
     public void RemoveContact(int UniekeId)
@@ -55,8 +57,8 @@ public class ContactService
         repository.RemoveContact(UniekeId);
     }
 
-    public string SearchContact(string name)
+    public string SearchContactName(string name)
     {
-        return GetContactAsStrings(repository.SearchContact(name));
+        return GetContactAsStrings(repository.SearchContactName(name));
     }
 }

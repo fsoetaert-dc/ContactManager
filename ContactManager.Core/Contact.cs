@@ -4,7 +4,7 @@ using Microsoft.VisualBasic;
 
 namespace ContactManager.Core;
 
-public class Contact //class contact aangemaakt die een naam als parameter neemt.
+public class Contact //class contact aangemaakt die een naam, email en nummer als parameter neemt.
 {
     public int Id { get; set; }
     public string Name { get; private set; } = ""; //moet nog altijd public zijn want je moet de naam kunnen  lezen, maar mag private set zijn omdat enkel Contact de naam mag toewijzen, en andere klasses van buitenaf mogen dit niet kunnen
