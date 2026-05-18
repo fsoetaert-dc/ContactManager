@@ -26,6 +26,7 @@ bin/
 obj/
 .vs/
 *.user
+node_modules/
 
 # .NET Core
 project.lock.json
